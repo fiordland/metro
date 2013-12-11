@@ -23,7 +23,7 @@ then
 	export FEATURES="$FEATURES ccache"
 	/usr/bin/ccache -M 1G
 	# The ccache ebuild has a bug where it will install links in /usr/lib/ccache/bin to reflect the current setting of CHOST.
-	# But the current setting of CHOST may not reflect the current compiler available (remember, CHOST can be overridden in /etc/portage/make.conf)
+	# But the current setting of CHOST may not reflect the current compiler available (remember, CHOST can be overridden in /etc/make.conf)
 
 	# This causes problems with ebuilds (such as ncurses) who may find an "i686-pc-linux-gnu-gcc" symlink in /usr/lib/ccache/bin and
 	# assume that an "i686-pc-linux-gnu-gcc" compiler is actually installed, when we really have an i486-pc-linux-gnu-gcc compiler
@@ -137,6 +137,8 @@ else
 	ln -sf ../usr/portage/profiles/$[portage/profile:zap] /etc/portage/make.profile || exit 1
 	echo "Set Portage profile to $[portage/profile:zap]."
 fi
+
+eselect python set python$[version/python]
 ]
 
 # do any cleanup that you need with things bind mounted here:
@@ -194,10 +196,10 @@ else
 	# stage1 - make sure we include our make.conf and profile link...
 	pf=""
 	pf="$[profile/format:zap]"
-	rm -f $ROOT/etc/portage/make.conf $ROOT/etc/portage/make.conf
+	rm -f $ROOT/etc/make.conf $ROOT/etc/portage/make.conf
 	install -d $ROOT/etc/portage
-	if [ -e /etc/portage/make.conf ]; then
-		mkconf=/etc/portage/make.conf
+	if [ -e /etc/make.conf ]; then
+		mkconf=/etc/make.conf
 	else
 		mkconf=/etc/portage/make.conf
 	fi
@@ -207,7 +209,7 @@ else
 		cp -a /etc/portage/make.profile/parent $ROOT/etc/portage/make.profile/parent || exit 4
 	else
 		rm -f $ROOT/etc/portage/make.profile || exit 3
-		cp -a /etc/portage/make.profile $ROOT/etc || exit 4
+		cp -a /etc/portage/make.profile $ROOT/etc/portage || exit 4
 	fi
 	cp $mkconf $ROOT/etc/portage/make.conf || exit 4
 fi

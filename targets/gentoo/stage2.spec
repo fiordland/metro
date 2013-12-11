@@ -20,8 +20,13 @@ $[[files/bootstrap.py]]
 EOF
 python /tmp/bootstrap.py --check || exit 1
 
-# Set at least one PYTHON_ABIS flag to satisfy REQUIRED_USE of sys-apps/portage.
+# Set at least one PYTHON_ABIS or PYTHON_TARGETS to satisfy REQUIRED_USE of sys-apps/portage.
+# This is default for Funtoo Builds
+
 export PYTHON_ABIS="$(portageq envvar PYTHON_ABIS | sed -e "s/.* //")"
+
+# This is default for Gentoo Builds
+export PYTHON_TARGETS="$(portageq envvar PYTHON_TARGETS | awk '{print $1}')"
 
 USE="-* build bootstrap" emerge portage || exit 1
 
@@ -39,7 +44,7 @@ emerge --prune sys-devel/gcc || exit 1
 unset USE
 for atom in `portageq match / dev-lang/python`
 do
-	emerge $eopts --oneshot =$atom || exit 1
+	USE="internal-glib" emerge $eopts --oneshot =$atom || exit 1
 done
 
 gcc-config $(gcc-config --get-current-profile)
