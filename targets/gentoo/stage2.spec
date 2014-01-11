@@ -10,6 +10,7 @@ ROOT: /
 
 chroot/run: [
 #!/bin/bash
+mount none /dev/shm -t tmpfs
 $[[steps/setup]]
 export AUTOCLEAN="yes"
 export CONFIG_PROTECT="-*"

@@ -6,6 +6,7 @@
 
 chroot/run: [
 #!/bin/bash
+mount none /dev/shm -t tmpfs
 $[[steps/setup]]
 emerge -u portage || exit 1
 export ROOT=$[portage/ROOT]

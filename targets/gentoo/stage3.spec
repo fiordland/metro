@@ -6,6 +6,7 @@
 
 chroot/run: [
 #!/bin/bash
+mount none /dev/shm -t tmpfs
 $[[steps/setup]]
 
 # use python2 if available - if not available, assume we are OK with python3

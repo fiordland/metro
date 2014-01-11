@@ -47,6 +47,7 @@ for b in buildpkgs: print(b)
 
 chroot/run: [
 #!/bin/bash
+mount none /dev/shm -t tmpfs
 $[[steps/setup]]
 # upgrade portage on stage3 if necessary, before we begin:
 emerge -u sys-apps/portage || die

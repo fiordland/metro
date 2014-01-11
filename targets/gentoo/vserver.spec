@@ -14,5 +14,6 @@ sys: vserver
 [section steps]
 
 chroot/run: [
+mount none /dev/shm -t tmpfs
 $[[steps/chroot/run/container/base]]
 ]
